@@ -1,0 +1,122 @@
+<!--
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>易·学系统</title>
+
+    &lt;!&ndash; 公共样式 开始 &ndash;&gt;
+    <link th:href="@{/css/register.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/js/jquery.js}" ></script>
+    <script th:inline="javascript" type="text/javascript">
+        if (window!=top){
+            //如果login页面在iframe中嵌套，则跳转到最外层页面
+            top.location.href=location.href
+
+        }
+        $(document).ready(function () {
+            $("#login_button").click(function (e) {
+                $myForm=$("#myForm");
+                var url=$myForm.attr("action")
+                $.post(url,
+                    $myForm.serialize(),
+                    function (data) {
+                        //jquery自带的json转换方法
+                        if (typeof data!='object'){
+                            data=$.parseJSON(data)
+                        }
+                        if (data.status==1){ //如果登录成功
+                            /**
+                             *  说明，其实下面的这几行代码只用一行就可以完成
+                             *  window.location.href = [[@{/backstage/adminmanage/toManageAdmin}]];
+                             *  但是因为idea编辑器报错看起来不好看（并不影响实际使用），所以就改为使用
+                             *  CDATA包起来，然后用null来表示，避免编辑器报错
+                             *  /
+
+                             /*<![CDATA[*/
+                            window.location.href = /*[[@{toindex}]]*/null;
+                            /*]]>*/
+                        }
+                        if (data.status==-1){//如果登录失败
+                            alert(data.myMessage)
+
+                        }
+                    }
+                )
+            })
+        })
+    </script>
+</head>
+
+<body>
+&lt;!&ndash;主体&ndash;&gt;
+<div class="reg_main">
+    &lt;!&ndash;轮播图开始&ndash;&gt;
+    <div class="carousel lbt" id="Logini">
+        <div class="carousel-item">
+            <img id="item1" src="img/bjt.jpg">
+            <img id="item2" src="img/bjt2.jpg">
+        </div>
+    </div>
+
+    <div class="reg_logo">
+        <img src="">
+        <div>
+            <h1>易·学系统</h1>
+        </div>
+    </div>
+
+    &lt;!&ndash;登录页面&ndash;&gt;
+    <div class="reg_form">
+        <div class="formreg">
+            <form id="myForm" th:action="@{doLogin}" class="l_form">
+                <div class="reg_title">易·学系统注册</div>
+
+                <div class="reg_us" onclick="">
+                    <label class="reglab">昵称：</label><input name="" type="text" placeholder="请输入账户">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">密码：</label><input name="" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">确认密码：</label><input name="" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">姓名：</label></label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">系部：</label></label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">班级：</label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">部门：</label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">职位：</label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">电话：</label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">备注：</label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+                <div class="reg_us" onclick="">
+                    <label class="reglab">加入易班时间：</label><input name="a_password" type="password" placeholder="请输入密码">
+                </div>
+
+                <div class="reg_but">
+                    &lt;!&ndash;<input  type="checkbox">管理员登录&ndash;&gt;
+                    <button  id="login_button" type="button" value="登录">登录</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>-->

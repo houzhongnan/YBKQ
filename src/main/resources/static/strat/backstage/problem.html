@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
+
+
+    <link th:href="@{css/from.css}" rel="stylesheet" type="text/css">
+    <!--导入jquery插件-->
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        $(document).ready(function () {
+         $("#buttons").click(function () {
+             var $form_demo=$("#from_demo");
+             $.post([[@{doAddAdmin}]],
+                 $("#form_demo").serialize(),
+                 function (data) {
+                     if (typeof data!='object') {
+                         data=$.parseJSON(data);
+                     }
+                     alert(data.myMessage);
+                     if (data.status==1) {
+                         window.location.href=[[@{toAddAdmin}]];
+                     }
+                 }
+             );
+         });
+        });
+    </script>
+</head>
+<body>
+<div class="div_form">
+    <h1 class="h1_style"><i class="i_h1"></i> 值班问题提交</h1>
+    <form id="form_demo">
+        <p class="form_p"><label class="form_label">问题标题：</label><input type="text" name="" class="form_input readonly"
+                                                                         ><i class="i_start"></i>
+        <p class="form_p"><label class="form_label">问题类型：</label><select class="form_input">
+            <option value="0">请选择</option>
+            <option value="1">值班类</option>
+            <option value="2">设备类</option>
+
+        </select></p>
+        <p class="form_p"><label class="form_label" >问题描述：</label>
+            <input type="text"  name="" class="form_text readonly">
+        <i class="i_start"></i>
+        </p>
+        <p class="form_p"><label class="form_label">提&nbsp;交&nbsp;人：&nbsp;</label><input type="text" name="" class="form_input "
+                                                                         minlength="2" required><i class="i_start"></i>
+        </p>
+
+        <p class="form_p"><label class="form_label">所在部门：</label><select class="form_input">
+            <option value="0">请选择</option>
+            <option value="">技术部</option>
+            <option value="">宣传部</option>
+            <option value="">视频部</option>
+            <option value="">站务部</option>
+            <option value="">外联部</option>
+            <option value="">策划部</option>
+
+        </select></p>
+
+        <p class="form_p"><label class="form_label">提交时间：</label><input type="date" name="" class="form_input "
+                                                                         minlength="2" required><i class="i_start"></i>
+        </p>
+
+        <p class="but_p">
+            <button id="buttons" type="button" value="保存" class="but_save">提交</button>
+            <a th:href="@{toAdmin}"><input type="button" value="返回" class="but_close"></a> </p>
+    </form>
+
+
+</div>
+<script th:src="@{js/jquery/jQuery-2.2.0.min.js}"></script>
+<script th:src="@{js/date/js/laydate.js}"></script>
+<script th:src="@{js/utf8-php/ueditor.config.js}"></script>
+<script th:src="@{js/utf8-php/ueditor.all.min.js}"></script>
+
+
+<script>
+    !function () {
+        laydate.skin('danlan');//
+        laydate({elem: '#demo'});
+        laydate({elem: '#demo1'});//
+    }();
+</script>
+<!--<script>
+    $.validator.setDefaults({
+        submitHandler: function () {
+            alert("修改成功");
+        }
+    });
+    $().ready(function () {
+        $("#form_demo").validate();
+    });
+</script>-->
+<script>
+
+
+    var ue = UE.getEditor('editor');
+
+
+    function isFocus(e) {
+        alert(UE.getEditor('editor').isFocus());
+        UE.dom.domUtils.preventDefault(e)
+    }
+
+    function setblur(e) {
+        UE.getEditor('editor').blur();
+        UE.dom.domUtils.preventDefault(e)
+    }
+
+    function insertHtml() {
+        var value = prompt('????html????', '');
+        UE.getEditor('editor').execCommand('insertHtml', value)
+    }
+
+    function createEditor() {
+        enableBtn();
+        UE.getEditor('editor');
+    }
+
+    function getAllHtml() {
+        alert(UE.getEditor('editor').getAllHtml())
+    }
+
+    function getContent() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getContent());
+        alert(arr.join("\n"));
+    }
+
+    function getPlainTxt() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getPlainTxt());
+        alert(arr.join('\n'))
+    }
+
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("");
+        UE.getEditor('editor').setContent('??????ueditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+
+    function setDisabled() {
+        UE.getEditor('editor').setDisabled('fullscreen');
+        disableBtn("enable");
+    }
+
+    function setEnabled() {
+        UE.getEditor('editor').setEnabled();
+        enableBtn();
+    }
+
+    function getText() {
+
+        var range = UE.getEditor('editor').selection.getRange();
+        range.select();
+        var txt = UE.getEditor('editor').selection.getText();
+        alert(txt)
+    }
+
+    function getContentTxt() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getContentTxt());
+        alert(arr.join("\n"));
+    }
+
+    function hasContent() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').hasContents());
+        alert(arr.join("\n"));
+    }
+
+    function setFocus() {
+        UE.getEditor('editor').focus();
+    }
+
+    function deleteEditor() {
+        disableBtn();
+        UE.getEditor('editor').destroy();
+    }
+
+    function disableBtn(str) {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            if (btn.id == str) {
+                UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+            } else {
+                btn.setAttribute("disabled", "true");
+            }
+        }
+    }
+
+    function enableBtn() {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+        }
+    }
+
+    function getLocalData() {
+        alert(UE.getEditor('editor').execCommand("getlocaldata"));
+    }
+
+    function clearLocalData() {
+        UE.getEditor('editor').execCommand("clearlocaldata");
+        alert("")
+    }
+</script>
+</body>
+</html>

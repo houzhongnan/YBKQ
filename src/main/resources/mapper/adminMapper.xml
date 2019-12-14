@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kqxt.springboot.dao.AdminDao">
+
+    <select id="login" resultType="Admin">
+        select * from admin where a_username=#{a_username} and a_password=#{a_password}
+    </select>
+
+    <select id="getAdmin" resultType="Admin">
+        select * from admin where id=#{id}
+    </select>
+
+    <select id="getAdmins" resultType="Admin">
+        select * from admin order by id asc
+    </select>
+
+    <select id="query" resultType="Admin">
+        select * from admin
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.a_username!=null and objectQuery.a_username.length()>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="a_username" value="'%' + _parameter.objectQuery.a_username + '%'" />
+                    and admin.a_username like #{a_username}
+                </if>
+            </where>
+            group by id
+        </if>
+        order by id asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="int">
+        select count(1) from admin
+    </select>
+
+    <select id="countUsername" resultType="int">
+        select count(id) from admin where a_username=#{a_username}
+    </select>
+    <select id="countOtherUsername" resultType="int">
+        select count(id) from admin where a_username=#{a_username} and id!=#{id}
+    </select>
+    
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into admin(id,name,a_name,a_username,a_password,a_position,e_mail,a_addingtime)
+        value(null,#{name},#{a_name},#{a_username},#{a_password},#{a_position},#{e_mail},#{a_addingtime})
+    </insert>
+
+
+
+
+
+</mapper>

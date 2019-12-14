@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
+
+
+    <link th:href="@{css/from.css}" rel="stylesheet" type="text/css">
+    <!--导入jquery插件-->
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        $(document).ready(function () {
+         $("#upd_buttons").click(function () {
+             var $myForm=$("#myForm");
+             $.post([[@{doUpdateAdmin}]],
+                 $("#myForm").serialize(),
+                 function (data) {
+                     if (typeof data!='object') {
+                         data=$.parseJSON(data);
+                     }
+                     alert(data.myMessage);
+
+                 }
+             );
+         });
+        });
+    </script>
+</head>
+<body>
+<div class="div_form">
+    <h1 class="h1_style"><i class="i_h1"></i> 编辑管理员信息</h1>
+    <form id="myForm">
+        <input type="hidden" name="id" th:value="${admin.id}">
+        <p class="form_p"><label class="form_label">管理员账号：</label><input type="text" name="a_username" class="form_input readonly"
+                                                                         th:value="${admin.a_username}"><i class="i_start"></i>
+        <p class="form_p"><label class="form_label">管理员密码：</label><input type="password" name="a_password" class="form_input "
+                                                                         minlength="2"  th:value="${admin.a_password}" required><i class="i_start"></i>
+        </p>
+        <p class="form_p"><label class="form_label">管理员姓名：</label><input type="text" name="name" class="form_input "
+                                                                              minlength="2" th:value="${admin.name}" required><i class="i_start"></i>
+    </p>
+
+        <p class="form_p"><label class="form_label">昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：</label><input type="text" name="a_name" class="form_input "
+                                                                         minlength="2" th:value="${admin.a_name}" required><i class="i_start"></i>
+        </p>
+
+        <p class="form_p"><label class="form_label">管理员职位：</label><select class="form_input">
+            <option>请选择</option>
+            <option>指导老师</option>
+            <option>站长团</option>
+            <option>部门部长</option>
+
+        </select></p>
+        <p class="form_p"><label class="form_label">管理员邮箱：</label><input type="text" name="e_mail" class="form_input "
+                                                                         minlength="2" th:value="${admin.e_mail}" required><i class="i_start"></i>
+        </p>
+
+        <p class="form_p"><label class="form_label">加入易班时间：</label><input type="date" name="a_addingtime" class="form_input "
+                                                                         minlength="2" th:value="${admin.a_addingtime}" required><i class="i_start"></i>
+        </p>
+
+        <p class="but_p">
+            <button id="upd_buttons" type="button" value="保存" class="but_save">保存</button>
+            <a th:href="@{toAdmin}"><input type="button" value="返回" class="but_close"></a> </p>
+    </form>
+
+
+</div>
+<script th:src="@{js/jquery/jQuery-2.2.0.min.js}"></script>
+<script th:src="@{js/date/js/laydate.js}"></script>
+<script th:src="@{js/utf8-php/ueditor.config.js}"></script>
+<script th:src="@{js/utf8-php/ueditor.all.min.js}"></script>
+
+
+<script>
+    !function () {
+        laydate.skin('danlan');//
+        laydate({elem: '#demo'});
+        laydate({elem: '#demo1'});//
+    }();
+</script>
+<!--<script>
+    $.validator.setDefaults({
+        submitHandler: function () {
+            alert("修改成功");
+        }
+    });
+    $().ready(function () {
+        $("#form_demo").validate();
+    });
+</script>-->
+<script>
+
+
+    var ue = UE.getEditor('editor');
+
+
+    function isFocus(e) {
+        alert(UE.getEditor('editor').isFocus());
+        UE.dom.domUtils.preventDefault(e)
+    }
+
+    function setblur(e) {
+        UE.getEditor('editor').blur();
+        UE.dom.domUtils.preventDefault(e)
+    }
+
+    function insertHtml() {
+        var value = prompt('????html????', '');
+        UE.getEditor('editor').execCommand('insertHtml', value)
+    }
+
+    function createEditor() {
+        enableBtn();
+        UE.getEditor('editor');
+    }
+
+    function getAllHtml() {
+        alert(UE.getEditor('editor').getAllHtml())
+    }
+
+    function getContent() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getContent());
+        alert(arr.join("\n"));
+    }
+
+    function getPlainTxt() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getPlainTxt());
+        alert(arr.join('\n'))
+    }
+
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("");
+        UE.getEditor('editor').setContent('??????ueditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+
+    function setDisabled() {
+        UE.getEditor('editor').setDisabled('fullscreen');
+        disableBtn("enable");
+    }
+
+    function setEnabled() {
+        UE.getEditor('editor').setEnabled();
+        enableBtn();
+    }
+
+    function getText() {
+
+        var range = UE.getEditor('editor').selection.getRange();
+        range.select();
+        var txt = UE.getEditor('editor').selection.getText();
+        alert(txt)
+    }
+
+    function getContentTxt() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').getContentTxt());
+        alert(arr.join("\n"));
+    }
+
+    function hasContent() {
+        var arr = [];
+        arr.push("");
+        arr.push("");
+        arr.push(UE.getEditor('editor').hasContents());
+        alert(arr.join("\n"));
+    }
+
+    function setFocus() {
+        UE.getEditor('editor').focus();
+    }
+
+    function deleteEditor() {
+        disableBtn();
+        UE.getEditor('editor').destroy();
+    }
+
+    function disableBtn(str) {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            if (btn.id == str) {
+                UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+            } else {
+                btn.setAttribute("disabled", "true");
+            }
+        }
+    }
+
+    function enableBtn() {
+        var div = document.getElementById('btns');
+        var btns = UE.dom.domUtils.getElementsByTagName(div, "button");
+        for (var i = 0, btn; btn = btns[i++];) {
+            UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
+        }
+    }
+
+    function getLocalData() {
+        alert(UE.getEditor('editor').execCommand("getlocaldata"));
+    }
+
+    function clearLocalData() {
+        UE.getEditor('editor').execCommand("clearlocaldata");
+        alert("")
+    }
+</script>
+</body>
+</html>

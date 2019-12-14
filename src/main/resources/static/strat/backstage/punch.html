@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>值班签到</title>
+    <script th:src="@{/js/jquery.js}"></script>
+   <script type="text/javascript">
+       $(document).ready(function () {
+           $.ajax({
+               url:'in_time.do',
+               type:'POST',
+               dataType:'json',
+               data:{
+               },
+               success:function (in_time) {
+                   out_time()
+                   document.getElementById("in_text").value=in_time;
+               },
+               error:function (XMLHttpRequest) {
+                   console.log('XMLHttpRequest:');  //console.log() 方法用于在控制台输出信息。
+                   console.log(XMLHttpRequest);
+                   alert("网络异常！尝试刷新网页解决问题");
+               }
+           })
+
+           function out_time() {
+               $.ajax({
+                   url:'out_time.do',
+                   type:'POST',
+                   dataType:'json',
+                   data:{
+                   },
+                   success:function (out_time) {
+                       document.getElementById("out_text").value=out_time;
+                   },
+                   error:function (XMLHttpRequest) {
+                       console.log('XMLHttpRequest:');  //console.log() 方法用于在控制台输出信息。
+                       console.log(XMLHttpRequest);
+                       alert("网络异常！尝试刷新网页解决问题");
+                   }
+               })
+           }
+           $("#in_btn").on('click',function () {
+               var loginaddress=$('#city').text();
+               $.ajax({
+                   url:'punch_in.do',
+                   type:'POST',
+                   dataType:'json',
+                   data:{
+                       loginaddress:loginaddress,
+                   },
+                   success:function (result) {
+                       //1:打卡成功，2：打卡失败（超过9点20，打卡状态为迟到），3：打卡失败（超过9点20后任不打卡，超过10点为缺席）\
+                       if (result>=1){
+                           layer.msg("打卡成功")
+                       }else if(result==-2){
+                           layer.confirm('值班打卡成功，您已迟到，请填写迟到原因！',{
+                               btn:['确定','取消']
+                           }),function () {
+                               layer.open({
+                                   title:'迟到原因',
+                                   area:['650px','250px'],
+                                   type:2,
+                                   content:'late.do',
+                                   cancel:function () {
+
+                                   }
+                               });
+                           },function () {
+
+                           }
+                       }else if (result==-3){
+                           layer.msg('值班缺勤，打卡失败！')
+                       }else if (result==-4){
+                           layer.msg('您已打卡，请勿重复打卡！')
+                       }
+
+                   },
+                   error: function (XMLHttpRequest) {
+                       console.log('XMLHttpRequest:');
+                       console.log(XMLHttpRequest);
+                       alert('网络异常！尝试刷新网页解决问题');
+                   }
+
+               })
+           })
+           $('#out_btn').on('click',function () {
+               $.ajax({
+                   url:'',
+                   type:'POST',
+                   dataType:'json',
+                   data:{
+
+                   },
+                   success:function (result) {
+                       if (result>=1){
+                           layer.msg("签退成功");
+                           out_time()
+                       }else if (result==-2){
+                           layer.msg('早退提示：当前未到签退时间！')
+                       }else if (result==-3){
+                           layer.msg("您已签退成功，请勿重复签退！")
+                       }
+                   },
+                   error: function (XMLHttpRequest) {
+                       console.log('XMLHttpRequest:');
+                       console.log(XMLHttpRequest);
+                       alert('网络异常！尝试刷新网页解决问题');
+                   }
+
+               })
+           })
+           $(function () {
+               //获取当前城市
+               $.ajax({
+                   url:'',
+                   type:'POST',
+                   dataType:'json',
+                   success:function (data) {
+                       $('#city').html(JSON.stringify(data.content.address_detail.province+","+data.content.address_detail.city))
+                   }
+               })
+           })
+       })
+   </script>
+</head>
+<body>
+       <div class="layui-form-item">
+           <div class="layui-input--block">
+               <form class="layui-form">
+                   <div align="center">
+                       值班地点：<p id="city"></p>
+                   </div><br>
+                   <div class="layui-form-item">
+                       <label class="layui-form-label">打卡时间：</label>
+                       <div class="layui-input-block" style="width: 250px">
+                          <input type="text" id="in_text" name="" required value="" autocomplete="off" class="layui-input" readonly>    <!--required 属性规定必需在提交之前填写输入字段。-->
+                       </div>
+                       <div class="layui-form-item">
+                           <div class="layui-input-block" style="width: 400px">
+                               <button class="layui-btn" type="button" id="in_btn">值班打卡</button>
+                           </div>
+                       </div>
+                   </div>
+                   <br>
+                   <div class="layui-form-item">
+                       <label class="layui-form-label">签退时间</label>
+                       <div class="layui-input-block" style="width: 250px">
+                           <input type="text" id="out_text" name="" required value="" autocomplete="off" class="layui-input" readonly> <!-- readonly 属性规定输入字段为只读。-->
+                       </div>
+                       <div class="layui-form-item">
+                           <div class="layui-input-block" style="width: 400px">
+                               <button clas6s="layui-btm" type="button" id="out_btn">值班签退</button>
+                           </div>
+                       </div>
+                   </div>
+               </form>
+           </div>
+       </div>
+</body>
+</html>

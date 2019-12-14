@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+             <div class="layui-form-item">
+                 <div class="layui-input-block">
+                     <form class="layui-form">
+                         <div class="layui-form-item">
+                             <br><br><br>
+                             <label class="layui-form-lable">迟到原因</label>
+                             <div class="layui-input-block" style="width: 250px">
+                                 <input type="textbox" id="lateresult" name="" required autocomplete="off" value="" class="layui-input">
+                             </div><br>
+                             <div class="layui-form-item" >
+                                 <div class="layui-input-block" style="width: 400px">
+                                     <button class="layui-btn" type="button" id="latego">确定</button>
+                                 </div>
+                             </div>
+
+                         </div>
+                     </form>
+                 </div>
+             </div>
+<script type="text/javascript">
+    $('#latego').on('click',function () {
+        var remark=document.getElementById('lateresult').value;
+        $.ajax({
+            url:'',
+            type:'POST',
+            dataType:'json',
+            data:{
+                remark:remark,
+            },
+            success:function (result) {
+                if (result>0){
+                    layer.confirm('迟到原因填写成功！',{
+                        btn:['确定']
+                    },function () {
+                        window.parent.location.reload();
+                    })
+                }
+            },
+            error: function (XMLHttpRequest) {
+                console.log('XMLHttpRequest:');
+                console.log(XMLHttpRequest);
+                alert('网络异常！尝试刷新网页解决问题');
+            }
+              })
+
+    })
+</script>
+</body>
+</html>

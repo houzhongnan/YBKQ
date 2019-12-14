@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
+    <meta charset="UTF-8">
+    <title>创建管理账户</title>
+    <!--导入jQuery插件 -->
+    <script src="strat/js/jquery-3.4.1.js"></script>
+    <!--导入layui插件 -->
+    <link rel="stylesheet" href="strat/plugins/layui/css/layui.css">
+    <script src="strat/plugins/layui/layui.js"></script>
+
+    <!--导入插件：前端设置 -->
+    <script src="strat/js/my_base.js"></script>
+    <script>
+        layui.use(['form','laydate'],function () {
+            var form=layui.form;
+            var laydate=layui.laydate;
+            laydate.render({
+                elem:'#addtime',
+                format: 'yyyy年MM月dd日',
+                trigger: 'click'
+            })
+
+            //自定义表单验证规则
+            form.verify({
+                a_username:function (value) {
+                    if (value.left==0){
+                        return "账号添加失败：管理员账号不可以为空！"
+                    }
+                    if (!new RegExp("^[0-9_\u4e00\u9fa5\\s.]+$").test(value)){
+                        return "账号添加失败：管理员账号不可以有特殊字符！"
+                    }
+                    if (value.length<10 || value.length>11) {
+                        return "账号添加失败：管理员账号长度必须在10-11个字符之间"
+                    }
+                },
+                a_password:function(value){
+                    /^[\S]{6,12}$/, '账号添加失败：密码必须6到12位，且不能出现空格'
+                },
+                name:function (value) {
+                    if (value.length==0){
+                        return "账号添加失败：管理姓名不可以为空"
+                    }
+                    if (value.length>8) {
+                        return "账号添加失败：管理员姓名长度必须在8个字符之间"
+                    }
+                },
+                a_position:function (value) {
+                    if (value.length==0){
+                        return "账号添加失败：管理员职位不可以为空"
+                    }
+                },
+                e_mail:function (value) {
+                    if (value.length==0){
+                        return "账号添加失败：管理员邮箱不可以为空"
+                    }
+                    if (!new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}$").test(value)){
+                        return "账号添加失败：管理员邮箱格式不正确，请按xxx@xx.xxx的格式输入！"
+                    }
+                },
+                a_addingtime:function (value) {
+                    if (value.length==0){
+                        return "账号添加失败：管理员加入易班时间不可以为空！"
+                    }
+                }
+
+
+
+            });
+
+            //监听提交
+            form.on('submit(adminbtn)',function (data) {
+                $.postRestful("doAddAdmin",
+                    JSON.stringify(data.field),
+                    function (msg) {
+                    alert("asd")
+                        if (msg.code=code_success) {
+                            $("#myForm")[0].reset();
+                            layui.form.render();
+                            layer.alert("管理员添加成功！")
+                        }else {
+                            layer.msg(msg.msg)
+
+                        }
+                    }
+                )
+            })
+
+        })
+    </script>
+
+
+
+
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>添加管理员</legend>
+</fieldset>
+<form id="myForm" lay-filter="myForm" class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px">管理员账号：</label>
+        <div class="layui-input-block" style="width: 80%;margin-left: 120px">
+            <input type="text" name="a_username" required lay-verify="a_username" autocomplete="off"
+                   placeholder="请输入管理员账号" class="layui-input">
+        </div>
+    </div>
+ <!--   <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px">管理员密码：</label>
+        <div class="layui-input-block" style="width: 80%;margin-left: 120px">
+            <input type="text" name="a_password" required lay-verify="a_password" autocomplete="off"
+                   placeholder="请输入管理员密码" class="layui-input">
+        </div>
+    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px">管理员姓名：</label>
+        <div class="layui-input-block" style="width: 80%;margin-left: 120px">
+            <input type="text" name="name" required lay-verify="name" autocomplete="off" placeholder="请输入管理员姓名"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px">管理员昵称：</label>
+        <div class="layui-input-block" style="width: 80%;margin-left: 120px">
+            <input type="text" name="a_name" required lay-verify="a_name" autocomplete="off" placeholder="请输入管理员昵称"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px">管理员邮箱：</label>
+        <div class="layui-input-block" style="width: 80%;margin-left: 120px">
+            <input type="text" name="e_mail" required lay-verify="e_mail" autocomplete="off"
+                   placeholder="请输入邮箱xxxx@xx.com" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px">管理员职位：</label>
+        <div class="layui-input-block" style="width: 80%;margin-left: 120px">
+            <select name="a_position" lay-filter="position">
+                <option value=""></option>
+                <option value="站长">站长</option>
+                <option value="技术顾问">技术顾问</option>
+                <option value="副站长">副站长</option>
+                <option value="部长">部长</option>
+                <option value="副部长">副部长</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px">加入日期：</label>
+        <div class="layui-input-inline" style="width: 80%;">
+            <input type="text" name="a_addingtime" lay-verify="a_addingtime" class="layui-input" id="addtime" placeholder="yyyy年MM月dd日" autocomplete="off" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="adminbtn">确认添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary"  >信息重置</button>
+        </div>
+    </div>
+
+
+</form>
+
+</body>
+</html>

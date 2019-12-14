@@ -1,0 +1,131 @@
+body {
+    overflow: hidden;
+}
+
+.lbt {
+    position: fixed; /*生成绝对定位的元素，相对于浏览器窗口进行定位。*/
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: #00aff0;
+
+}
+
+.login_main {
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.login_main .logo {
+    margin-left: 110px;
+    margin-top: 60px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.login_main .logo img {
+    width: 88px;
+    height: 88px;
+    float: left;
+}
+
+.login_main .logo div {
+    float: left;
+    margin-left: 20px;
+}
+
+.login_main .logo h1 {
+    font: 16px;
+    color: #f9f9f9;
+}
+
+/*登录页面样式*/
+.log_form {
+    width: 350px;
+    height: 270px;
+    background: #FFFAFA;
+    margin-left: 500px;
+    margin-top: 120px;
+    border-radius: 10px 10px 0 0;
+    padding: 14px 34px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
+.log_form .form {
+    width: 100%;
+}
+
+.log_form .form .title {
+    font-size: 18px;
+    line-height: 20px;
+    color: #00aff0;
+    margin-bottom: 40px;
+}
+
+.log_form .form .us {
+    position: relative;
+    margin-top: 20px;
+    background-color: #F7FBFF;
+    color: #989898;
+
+    margin-bottom: 20px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    overflow: hidden;
+
+}
+.log_form .form .us input{
+    padding-left: 0;
+    padding-right: 0;
+    height: 40px;
+    width: 300px;
+    line-height: 20px;
+    border: 0;
+    background-color: transparent;
+    margin-top: 5px;
+}
+
+.log_form .form .but{
+    margin-top: 20px;
+}
+.log_form .form .but #login_button{
+    width: 100%;
+    background-color: #00aff0;
+    color: #f9f9f9;
+    font-size: 18x;
+    height: 30px;
+    border: 0;
+    border-radius: 10px;
+}
+
+.log_form .form .reg{
+    margin-top: 20px;
+    overflow: hidden;
+}
+.log_form .form .reg a{
+    color: #9d9d9d;
+    font-size: 14px;
+    line-height: 26px;
+    float: right;
+    text-decoration: none;
+}
+.log_form .form .reg  a:hover{
+    color: #00b7ee;
+}
+
+
+.log_form .form .but input{
+    font-size: 14px;
+    overflow: hidden;
+    float: left;
+}
+/*图片轮播*/
+.carousel-item {
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人基本信息</title>
+    <!--<link th:href="@{css/from.css}" rel="stylesheet" type="text/css">
+    &lt;!&ndash;导入jquery插件&ndash;&gt;
+    <script th:src="@{/js/jquery.js}"></script>-->
+</head>
+<body>
+<div class="a_bas">
+  <h2>个人基本信息</h2>
+    <form id="form_demo">
+        <div class="n_bas">
+            <label>姓名:</label><input type="text" name="a_username" class="form_input readonly">
+            <label>账号：</label><input type="password" name="a_password" class="form_input " minlength="2" required>
+            <label>昵称：</label><input type="password" name="a_password" class="form_input " minlength="2" required>
+            <label>职位：</label><input><input type="text" name="e_mail" class="form_input "minlength="2" required>
+            <label>邮箱：</label><input><input type="text" name="e_mail" class="form_input "minlength="2" required>
+            <button>编辑个人信息</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

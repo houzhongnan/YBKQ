@@ -1,0 +1,63 @@
+#服务端
+server:
+  port: 8080  #端口号
+  servlet:
+    context-path: /kqxt_springboot   #在项目路径上加项目名，注意，spring boot2和spring boot1不同
+    session:
+      timeout: 60m #设置过期时间为60分钟
+
+
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml #扫描mybatis的mapper.xml文件
+  type-aliases-package: com.kqxt.springboot.model  #起别名，指向实体类的位置
+
+spring:
+  devtools:
+    restart:
+      enabled: true #开启自动启动
+  thymeleaf:
+    cache: false #缓存（开发时设置为false）
+  mvc:
+    view:
+      suffix: .html
+      prefix: strat/backstage/
+  security:
+
+  #jdbc配置，springboot默认会把spring.datasource开头的信息收纳，进行DataSource对象的配置，进而进行sqlSessionFactory的配置等相关数据库连接的配置，从而省略了application.xml中的相关
+  datasource:
+    url: jdbc:mysql://localhost:3306/kqxt?characterEncoding=utf-8&serverTimezone=CTT
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: localhost #redis ip地址
+    port: 6379
+    password:
+    database: 0 #redis密码，一般不进行设置
+    redis-maxIdle: 500  #单个上传文件的最大限制
+    redis-maxWait: 4000  #代表使用的是redis默认提供的db0这个数据库。
+
+  session:
+    store-type: redis  #指定Session 的存储方式为redis
+  jackson:   #设置全局json格式
+    date-format: yyyy年MM月dd日
+    time-zone: CTT
+  servlet:
+    multipart:
+      maxFileSize: 100MB #单个上传文件的最大限制
+      maxRequestSize: 100MB  #所有上传文件的最大限制
+        #控制台打印sql语句
+        #logging:`
+        #  file: target/ebuy.log
+      #  level:
+      #    com.lcvc.ebuy_springboot: debug
+      #org.springframework: DEBUG
+  myFile: #自定义变量
+    #文件上传目录（注意Linux和Windows上的目录结构不同）
+    uploadFolder: c:/ebuy_springboot/upload/
+    #file.uploadFolder=/home/upload/#linux
+    #静态资源对外暴露的访问路径
+    staticAccessPath: /upload/**
+

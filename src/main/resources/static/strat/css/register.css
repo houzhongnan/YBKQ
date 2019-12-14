@@ -1,0 +1,103 @@
+body{
+    overflow: hidden;
+}
+
+.lbt{
+    position: fixed; /*生成绝对定位的元素，相对于浏览器窗口进行定位。*/
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: #00aff0;
+}
+
+.reg_main{
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+ }
+
+.reg_logo{
+    margin-left: 110px;
+    margin-top: 60px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+.reg_main .reg_logo img {
+    width: 88px;
+    height: 88px;
+    float: left;
+}
+
+.reg_main .reg_logo div {
+    float: left;
+    margin-left: 20px;
+}
+
+.reg_main .reg_logo h1 {
+    font: 16px;
+    color: #f9f9f9;
+}
+
+/*注册页面样式*/
+.reg_form{
+    width: 600px;
+    height: 600px;
+    background: #FFFAFA;
+    margin-left: 450px;
+    margin-top: 10px;
+    border-radius: 10px 10px 0 0;
+    padding:14px 34px ;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
+.reg_form .formreg{
+    width: 100%;
+}
+
+.reg_form .formreg .reg_title{
+    font-size: 18px;
+    line-height: 20px;
+    color: #00aff0;
+    margin-bottom: 40px;
+}
+
+.reg_form  .formreg .reg_us{
+    position: relative;
+    margin-top: 20px;
+   /* background-color: #F7FBFF;*/
+    color: #989898;
+
+    margin-bottom: 20px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.reg_form  .formreg .reg_us input{
+    padding-left: 0;
+    padding-right: 0;
+    height: 40px;
+    width: 400px;
+    line-height: 20px;
+    border: 0;
+    background-color: transparent;
+    margin-top: 5px;
+
+}
+
+.reg_form  .formreg .reglab{
+    display: inline-block;
+    width: 90px;
+    font-size: 18px;
+    color:#000000;
+    padding: 5px 0;
+
+
+
+}

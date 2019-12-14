@@ -1,0 +1,113 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" ; charset="utf-8"/>
+    <title>管理员管理</title>
+    <!--导入layui插件 -->
+    <link rel="stylesheet" href="strat/plugins/layui/css/layui.css">
+    <script src="strat/plugins/layui/layui.js"></script>
+    <!--导入基于layui的第三方插件：formSelects -v4样式-->
+    <link rel="stylesheet" type="text/css" href="strat/plugins/layui-formSelects-master/dist/formSelects-v4.css">
+    <!--导入jQuery插件 -->
+    <script src="strat/js/jquery-3.4.1.js"></script>
+    <!--导入自己插件：layui基础设置 -->
+    <script src="strat/js/my_layui.js"></script>
+    <!--导入插件：前端设置 -->
+    <script src="strat/js/my_base.js"></script>
+    <!--定义表格的头部工具栏 -->
+    <script type="text/html" id="toolbar">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="addAdmin">添加管理账户</button>
+            <button class="layui-btn layui-btn-sm" lay-event="deleteAdmin">批量删除管理员账户</button>
+
+        </div>
+    </script>
+    <!--定义表格的行工具 -->
+    <script type="text/html" id="bardemo">
+
+        <a class="layui-btn layui-btn-xs" lay-event="">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="">删除</a>
+    </script>
+    <script type="text/html" id="unLockedSwitch">
+        <input type="checkbox" id="unLocked{{d.id}}" class="layui-bg-red" name="locked" value="{{d.id}}" readOnly="" title="未锁定" lay-filter="unLockedFilter" {{d.unLocked==true?'checked':''}}>
+    </script>
+    <script>
+        layui.use(['table','laypage'],function () {
+            var table=layui.table;
+            var laypage=layui.laypage;
+
+            table.render({
+                id:'adminmanage_table',
+                elem:'#admins',
+                height:430,
+                even:true,
+                title:'后台管理员数据管理',
+                url:'toAdminmanage',
+                response:{
+                    statusName: 'code' //规定数据状态的字段名称，默认：code
+                    ,statusCode: 0 //规定成功的状态码，默认：0
+                    ,msgName: 'msg' //规定状态信息的字段名称，默认：msg
+                    ,countName: 'count' //规定数据总数的字段名称，默认：count
+                    ,dataName: 'data' //规定数据列表的字段名称，默认：data
+                },
+                parseData:function(res){
+                    return{
+                        "code":res.code,
+                        "data":res.data,
+                        "count": res.count,
+                    }
+                },
+                toolbar:'#toolbar',
+                /*page:true,
+                limit:10,*/
+
+            cols:[[
+                    {type:'checkbox',fixed:'left',align:'center',width:30},
+                    {field:'id',title:'序号',align:'center',width:135,sort:true,fixed:'left',sort:true},
+                    {field:'a_username',title:'账户名',align:'center',width:125,sort:true},
+                    {field:'a_password',title:'密码',align:'center',width:120,sort:true},
+                    {field:'name',title:'姓名',align:'center',width:80,sort:true},
+                    {field:'a_name',title:'昵称',align:'center',width:120,sort:true},
+                    {field:'a_position',title:'职位',align:'center',width:100,sort:true},
+                    {field:'e_mail',title:'邮箱',align:'center',width:175,sort:true},
+                    {field:'a_addingtime',title:'加入时间',align:'center',width:135,sort:true},
+                    {title:'操作',align:'center',width:116,toolbar:'#bardemo'}
+                ]],
+                done:function (res,curr,count) {
+                    laypage.render({
+                        elem: 'pageDemo'
+                        ,count:count
+                        ,curr:curnum
+                        ,limit:limitcount
+                        ,layout:[ 'prev','page', 'next','count', 'limit', 'limits']
+                        ,jump: function(obj, first){
+                            //首次不执行
+                            if(!first){
+                                curnum=obj.curr;
+                                limitcount=obj.limit;
+                                sear
+                                layer.msg('第'+obj.curr+'页',{offset:'b'})
+                            }
+                        }
+                    })
+                }
+            })
+
+        })
+    </script>
+
+</head>
+<body>
+<form class="layui-form layui-form-pane">
+    <div class="layui-inline" style="margin-top: 5px;">
+        <label class="layui-form-label">账户名</label>
+        <div class="layui-inline">
+            <input type="text" name="a_username" autocomplete="off" placeholder="请输入要查询的账户名" class="layui-input">
+        </div>
+    </div>
+</form>
+<table id="admins" lay-filter="admin_event"></table>
+<div id="pageDemo"></div>
+
+</body>
+</html>
